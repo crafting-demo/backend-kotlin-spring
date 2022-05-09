@@ -2,4 +2,3 @@ daemons:
   server:
     run:
       cmd: ./gradlew bootRun
-      dir: api
