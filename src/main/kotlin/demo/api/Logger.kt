@@ -6,7 +6,7 @@ fun LogContext(request: String, response: String, errors: ArrayList<String>, rec
     println("  Request: $request")
     println("  Response: $response")
 
-    if (errors != null && errors.isNotEmpty()) {
+    if (errors.isNotEmpty()) {
         println("  Errors: $errors")
     }
     

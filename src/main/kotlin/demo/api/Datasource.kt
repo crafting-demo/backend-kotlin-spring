@@ -1,15 +1,16 @@
 package demo.api
 
-fun readEntity(store: String?, key: String?): String? {
-    // TODO:
-    // If success, return value
-    // If error, log and return null
-    return "TODO"
+data class OpResponse(
+    var value: String?,
+    var errors: String?
+)
+
+@Suppress("UNUSED_PARAMETER")
+fun readEntity(store: String?, _key: String?): OpResponse {
+    return OpResponse(null, store + " client not implemented yet")
 }
 
-fun writeEntity(store: String?, key: String?, value: String?): String? {
-    // TODO:
-    // If success, return value back
-    // If error, log and return null
-    return "TODO"
+@Suppress("UNUSED_PARAMETER")
+fun writeEntity(store: String?, _key: String?, value: String?): OpResponse {
+    return OpResponse(value, store + " client not implemented yet")
 }

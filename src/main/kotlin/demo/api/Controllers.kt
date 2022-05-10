@@ -18,7 +18,7 @@ class ApiController() {
 	@PostMapping("/api")
 	fun NestedCallHandler(@RequestBody message: Message): String {
 		val receivedAt = Instant.now().toString()
-		val errors = arrayListOf<String>()
+		var errors = arrayListOf<String>()
 		val gson = GsonBuilder().create()
 
 		val request = gson.toJson(message)
@@ -30,18 +30,20 @@ class ApiController() {
 				}
 
 				"Read" -> {
-					val value = readEntity(action.payload.serviceName, action.payload.key)
-					if (value == null) {
+					val res = readEntity(action.payload.serviceName, action.payload.key)
+					if (res.errors != null) {
+						errors.addAll(listOf(res.errors ?: ""))
 						action.status = "Failed"
 					} else {
 						action.status = "Passed"
-						action.payload.value = value
+						action.payload.value = res.value
 					}
 				}
 
 				"Write" -> {
-					val value = writeEntity(action.payload.serviceName, action.payload.key, action.payload.value)
-					if (value == null) {
+					val res = writeEntity(action.payload.serviceName, action.payload.key, action.payload.value)
+					if (res.errors != null) {
+						errors.addAll(listOf(res.errors ?: ""))
 						action.status = "Failed"
 					} else {
 						action.status = "Passed"
@@ -51,6 +53,7 @@ class ApiController() {
 				"Call" -> {
 					val resp = serviceCall(action.payload)
 					if (resp == null) {
+						errors.addAll(listOf("failed to call service " + action.payload.serviceName))
 						action.status = "Failed"
 					} else {
 						action.status = "Passed"
