@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 
 import java.time.Instant
 import java.net.URI
@@ -16,11 +16,12 @@ import java.net.http.HttpResponse
 class ApiController() {
 
 	@PostMapping("/api")
-	fun NestedCallHandler(@RequestBody message: Message): Message {
+	fun NestedCallHandler(@RequestBody message: Message): String {
 		val receivedAt = Instant.now().toString()
 		val errors = arrayListOf<String>()
+		val gson = GsonBuilder().create()
 
-		val request = message.copy()
+		val request = gson.toJson(message)
 
 		for (action in message.actions) {
 			when (action.action) {
@@ -64,17 +65,21 @@ class ApiController() {
 
 		message.meta.returnTime = Instant.now().toString()
 
-		LogContext(request, message, errors, receivedAt)
+		val response = gson.toJson(message)
 
-		return message
+		LogContext(request, response, errors, receivedAt)
+
+		return response
 	}
 
 	fun serviceCall(payload: Payload): Message? {
+		val gson = GsonBuilder().create()
+		val client = HttpClient.newBuilder().build()
+
 		val meta: Meta = Meta("backend-kotlin-spring", payload.serviceName ?: "", Instant.now().toString(), null)
 		val message: Message = Message(meta, payload.actions ?: arrayOf<Action>())
-		val messageStringJSON = Gson().toJson(message)
+		val messageStringJSON = gson.toJson(message)
 
-		val client = HttpClient.newBuilder().build()
 		val request = HttpRequest.newBuilder()
 			.uri(URI.create(serviceEndpoint(payload.serviceName ?: "")))
 			.header("Content-Type", "application/json")
@@ -82,7 +87,7 @@ class ApiController() {
 			.build()
 		val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
-		return Gson().fromJson<Message>(response.body(), Message::class.java)
+		return gson.fromJson<Message>(response.body(), Message::class.java)
 	}
 
 	fun serviceEndpoint(serviceName: String): String {

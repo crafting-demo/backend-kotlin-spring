@@ -1,6 +1,6 @@
 package demo.api
 
-fun LogContext(request: Message, response: Message, errors: ArrayList<String>, receivedAt: String) {
+fun LogContext(request: String, response: String, errors: ArrayList<String>, receivedAt: String) {
     println("Started POST \"/api\" at $receivedAt")
 
     println("  Request: $request")
