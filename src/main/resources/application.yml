@@ -1,0 +1,10 @@
+server:
+  port: 8080
+cors:
+  originPatterns: https://*.sandboxes.run
+spring:
+  datasource:
+    username: brucewayne
+    password: batman
+    url: jdbc:mysql://${MYSQL_SERVICE_HOST:mysql}:${MYSQL_SERVICE_PORT:3306}/demo
+    driver-class-name: com.mysql.jdbc.Driver
