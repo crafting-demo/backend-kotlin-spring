@@ -28,7 +28,6 @@ class ApiController() {
 				"Echo" -> {
 					action.status = "Passed"
 				}
-
 				"Read" -> {
 					val res = readEntity(action.payload.serviceName, action.payload.key)
 					if (res.errors != null) {
@@ -39,7 +38,6 @@ class ApiController() {
 						action.payload.value = res.value
 					}
 				}
-
 				"Write" -> {
 					val res = writeEntity(action.payload.serviceName, action.payload.key, action.payload.value)
 					if (res.errors != null) {
@@ -49,7 +47,6 @@ class ApiController() {
 						action.status = "Passed"
 					}
 				}
-
 				"Call" -> {
 					val resp = serviceCall(action.payload)
 					if (resp == null) {
@@ -61,7 +58,6 @@ class ApiController() {
 					}
 				}
 			}
-
 			action.serviceName = "backend-kotlin-spring"
 			action.returnTime = Instant.now().toString()
 		}

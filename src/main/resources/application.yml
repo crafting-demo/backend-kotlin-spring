@@ -1,7 +1,7 @@
 server:
   port: 8080
 cors:
-  originPatterns: https://*.sandboxes.run
+  originPatterns: https://*
 logging:
   level:
     root: OFF
@@ -11,3 +11,6 @@ spring:
     password: batman
     url: jdbc:mysql://${MYSQL_SERVICE_HOST:mysql}:${MYSQL_SERVICE_PORT:3306}/demo
     driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://${MONGODB_SERVICE_HOST:mongodb}:${MONGODB_SERVICE_PORT:27017}/demo
