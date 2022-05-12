@@ -1,38 +1,27 @@
 package demo.api
 
-data class OpResponse(
-    var value: String?,
-    var errors: String?
-)
+import javax.persistence.Id
+import javax.persistence.Entity
+import javax.persistence.Table
+import org.springframework.stereotype.Repository
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.repository.MongoRepository
 
-fun readEntity(store: String?, key: String?): OpResponse {
-    when (store) {
-        "mysql" -> return readMySQL(key)
-        "mongodb" -> return readMongoDB(key)
-        else -> return OpResponse(null, store + " not supported")
-    }
+@Entity
+@Table(name = "sample")
+data class SampleMysql(@Id val uuid: String, val content: String)
+
+@Document(collection = "sample")
+data class SampleMongo(val uuid: String, val content: String)
+
+@Repository
+interface SampleMysqlRepo: JpaRepository<SampleMysql, String> {
+    fun findByUuid(uuid: String): SampleMysql?
 }
 
-fun writeEntity(store: String?, key: String?, value: String?): OpResponse {
-    when (store) {
-        "mysql" -> return writeMySQL(key, value)
-        "mongodb" -> return writeMongoDB(key, value)
-        else -> return OpResponse(null, store + " not supported")
-    }
+interface SampleMongoRepo: MongoRepository<SampleMongo, String> {
+    fun findByUuid(uuid: String): SampleMongo?
 }
 
-fun readMySQL(key: String?): OpResponse {
-    return OpResponse(key, null)
-}
-
-fun writeMySQL(key: String?, value: String?): OpResponse {
-    return OpResponse(value, null)
-}
-
-fun readMongoDB(key: String?): OpResponse {
-    return OpResponse(key, null)
-}
-
-fun writeMongoDB(key: String?, value: String?): OpResponse {
-    return OpResponse(value, null)
-}
+data class OpResponse(val value: String?, val errors: String?)

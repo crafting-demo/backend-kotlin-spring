@@ -13,7 +13,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 @RestController
-class ApiController() {
+class ApiController(private val mysqlRepo: SampleMysqlRepo, private val mongoRepo: SampleMongoRepo) {
 
 	@PostMapping("/api")
 	fun NestedCallHandler(@RequestBody message: Message): String {
@@ -99,5 +99,49 @@ class ApiController() {
 			"backend-python-django" -> return "https://django" + suffix
 			else -> return "unknown"
 		}
+	}
+
+	fun readEntity(store: String?, key: String?): OpResponse {
+		when (store) {
+			"mysql" -> return readMySQL(mysqlRepo, key)
+			"mongodb" -> return readMongoDB(mongoRepo, key)
+			else -> return OpResponse(null, store + " not supported")
+		}
+	}
+
+	fun writeEntity(store: String?, key: String?, value: String?): OpResponse {
+		when (store) {
+			"mysql" -> return writeMySQL(mysqlRepo, key, value)
+			"mongodb" -> return writeMongoDB(mongoRepo, key, value)
+			else -> return OpResponse(null, store + " not supported")
+		}
+	}
+
+	fun readMySQL(repo: SampleMysqlRepo, key: String?): OpResponse {
+		val result = repo.findByUuid(key ?: "")
+		if (result == null) {
+			return OpResponse("Not Found", null)
+		} else {
+			return OpResponse(result.content, null)
+		}
+	}
+
+	fun writeMySQL(repo: SampleMysqlRepo, key: String?, value: String?): OpResponse {
+		repo.save(SampleMysql(key ?: "", value ?: ""))
+		return OpResponse(value, null)
+	}
+
+	fun readMongoDB(repo: SampleMongoRepo, key: String?): OpResponse {
+		val result = repo.findByUuid(key ?: "")
+		if (result == null) {
+			return OpResponse("Not Found", null)
+		} else {
+			return OpResponse(result.content, null)
+		}
+	}
+
+	fun writeMongoDB(repo: SampleMongoRepo, key: String?, value: String?): OpResponse {
+		repo.save(SampleMongo(key ?: "", value ?: ""))
+		return OpResponse(value, null)
 	}
 }
