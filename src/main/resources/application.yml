@@ -4,7 +4,7 @@ cors:
   originPatterns: https://*
 logging:
   level:
-    root: OFF
+    root: ERROR
 spring:
   datasource:
     username: brucewayne
