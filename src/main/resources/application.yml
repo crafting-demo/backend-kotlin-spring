@@ -1,7 +1,7 @@
 server:
-  port: 8080
+  port: ${DJANGO_SERVICE_PORT_API}
 cors:
-  originPatterns: https://*
+  originPatterns: *
 logging:
   level:
     root: ERROR
