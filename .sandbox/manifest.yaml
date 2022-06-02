@@ -1,4 +1,4 @@
 daemons:
-  server:
+  kotlin-spring:
     run:
       cmd: ./gradlew bootRun
