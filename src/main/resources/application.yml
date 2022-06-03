@@ -1,5 +1,5 @@
 server:
-  port: ${DJANGO_SERVICE_PORT_API}
+  port: ${DJANGO_SERVICE_PORT}
 cors:
   originPatterns: http*
 logging:

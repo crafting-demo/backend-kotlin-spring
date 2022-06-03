@@ -97,23 +97,23 @@ class ApiController(private val mysqlRepo: SampleMysqlRepo, private val mongoRep
 		when (serviceName) {
 			"backend-go-gin" -> {
 				host = System.getenv("GIN_SERVICE_HOST")
-				port = System.getenv("GIN_SERVICE_PORT_API")
+				port = System.getenv("GIN_SERVICE_PORT")
 			}
 			"backend-typescript-express" -> {
 				host = System.getenv("EXPRESS_SERVICE_HOST")
-				port = System.getenv("EXPRESS_SERVICE_PORT_API")
+				port = System.getenv("EXPRESS_SERVICE_PORT")
 			}
 			"backend-ruby-rails" -> {
 				host = System.getenv("RAILS_SERVICE_HOST")
-				port = System.getenv("RAILS_SERVICE_PORT_API")
+				port = System.getenv("RAILS_SERVICE_PORT")
 			}
 			"backend-kotlin-spring" -> {
 				host = System.getenv("SPRING_SERVICE_HOST")
-				port = System.getenv("SPRING_SERVICE_PORT_API")
+				port = System.getenv("SPRING_SERVICE_PORT")
 			}
 			"backend-python-django" -> {
 				host = System.getenv("DJANGO_SERVICE_HOST")
-				port = System.getenv("DJANGO_SERVICE_PORT_API")
+				port = System.getenv("DJANGO_SERVICE_PORT")
 			}
 		}
 		return "http://" + host + ":" + port + "/api"
