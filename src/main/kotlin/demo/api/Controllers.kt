@@ -17,6 +17,8 @@ class ApiController(private val mysqlRepo: SampleMysqlRepo, private val mongoRep
 
 	@PostMapping("/api")
 	fun NestedCallHandler(@RequestBody message: Message): String {
+		// LoggerWrite("Test Test Crafting")
+
 		val receivedAt = Instant.now().toString()
 		var errors = arrayListOf<String>()
 		val gson = GsonBuilder().create()
@@ -90,15 +92,31 @@ class ApiController(private val mysqlRepo: SampleMysqlRepo, private val mongoRep
 	}
 
 	fun serviceEndpoint(serviceName: String): String {
-		val suffix = System.getenv("SANDBOX_ENDPOINT_DNS_SUFFIX") + "/api"
+		var host = ""
+		var port = ""
 		when (serviceName) {
-			"backend-go-gin" -> return "https://gin" + suffix
-			"backend-typescript-express" -> return "https://express" + suffix
-			"backend-ruby-rails" -> return "https://rails" + suffix
-			"backend-kotlin-spring" -> return "https://spring" + suffix
-			"backend-python-django" -> return "https://django" + suffix
-			else -> return "unknown"
+			"backend-go-gin" -> {
+				host = System.getenv("GIN_SERVICE_HOST")
+				port = System.getenv("GIN_SERVICE_PORT")
+			}
+			"backend-typescript-express" -> {
+				host = System.getenv("EXPRESS_SERVICE_HOST")
+				port = System.getenv("EXPRESS_SERVICE_PORT")
+			}
+			"backend-ruby-rails" -> {
+				host = System.getenv("RAILS_SERVICE_HOST")
+				port = System.getenv("RAILS_SERVICE_PORT")
+			}
+			"backend-kotlin-spring" -> {
+				host = System.getenv("SPRING_SERVICE_HOST")
+				port = System.getenv("SPRING_SERVICE_PORT")
+			}
+			"backend-python-django" -> {
+				host = System.getenv("DJANGO_SERVICE_HOST")
+				port = System.getenv("DJANGO_SERVICE_PORT")
+			}
 		}
+		return "http://" + host + ":" + port + "/api"
 	}
 
 	fun readEntity(store: String?, key: String?): OpResponse {

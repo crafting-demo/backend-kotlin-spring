@@ -12,3 +12,7 @@ fun LogContext(request: String, response: String, errors: ArrayList<String>, rec
 
     println("\n")
 }
+
+fun LoggerWrite(message: String) {
+    println(message)
+}
