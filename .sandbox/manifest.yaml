@@ -1,9 +1,3 @@
-hooks:
-  post-checkout:
-    cmd:
-  build:
-    cmd:
-
 daemons:
   kotlin-spring:
     run:
