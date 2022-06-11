@@ -17,7 +17,7 @@ class ApiController(private val mysqlRepo: SampleMysqlRepo, private val mongoRep
 
 	@PostMapping("/api")
 	fun NestedCallHandler(@RequestBody message: Message): String {
-		// LoggerWrite("Test Test Crafting")
+		// println("Test Test Crafting")
 
 		val receivedAt = Instant.now().toString()
 		var errors = arrayListOf<String>()
