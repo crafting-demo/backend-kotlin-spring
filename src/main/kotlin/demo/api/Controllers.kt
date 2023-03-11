@@ -22,7 +22,7 @@ class ApiController(private val mysqlRepo: SampleMysqlRepo) {
                 responseMessage = "Hello! This is Kotlin Spring service."
             }
             "Please echo" -> {
-                responseMessage = "Echo from Kotlin Spring service. " + message.value
+                responseMessage = "Echo from Kotlin Spring service: " + message.value
             }
             "Read from database" -> {
                 val result = readEntity("mysql", message.key)
