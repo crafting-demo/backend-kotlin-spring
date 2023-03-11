@@ -9,8 +9,6 @@ spring:
   datasource:
     username: brucewayne
     password: batman
-    url: jdbc:mysql://${MYSQL_SERVICE_HOST:mysql}:${MYSQL_SERVICE_PORT:3306}/demo
+    # url: jdbc:mysql://${MYSQL_SERVICE_HOST:mysql}:${MYSQL_SERVICE_PORT:3306}/demo
+    url: jdbc:mysql://127.0.0.1:3306/demo
     driver-class-name: com.mysql.cj.jdbc.Driver
-  data:
-    mongodb:
-      uri: mongodb://${MONGODB_SERVICE_HOST:mongodb}:${MONGODB_SERVICE_PORT:27017}/demo
